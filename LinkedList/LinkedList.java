@@ -1,5 +1,6 @@
 package LinkedList;
 
+import java.util.List;
 import java.util.Random;
 
 public class LinkedList {
@@ -704,4 +705,255 @@ public class LinkedList {
 
     //-----------------------------------------------------------------------------------------------
     
+    // public static ListNode reverse(ListNode head) {
+    //     if (head == null || head.next == null) return head;
+        
+    //     ListNode cur = head;
+    //     ListNode prev = null;
+        
+    //     while (cur != null) {
+    //         ListNode frwd = cur.next;
+            
+    //         cur.next = prev;
+            
+    //         prev = cur;
+    //         cur = frwd;
+    //     }
+        
+    //     return prev;
+    // }
+
+    // public static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        
+    //     l1 = reverse(l1);
+    //     l2 = reverse(l2);
+        
+    //     ListNode dummy = new ListNode(-1);
+    //     ListNode c1 = l1, c2 = l2, prev = dummy;
+    //     int carry = 0;
+        
+    //     while (c1 != null || c2 != null || carry != 0) {
+    //         int d1 = c1 != null ? c1.val : 0;
+    //         int d2 = c2 != null ? c2.val : 0;
+    //         int sum = d1 + d2 + carry;
+            
+    //         carry = sum/10;
+    //         sum = sum%10;
+            
+    //         prev.next = new ListNode(sum);
+    //         prev = prev.next;
+            
+    //         if (c1 != null) c1 = c1.next;
+    //         if (c2 != null) c2 = c2.next;
+    //     }
+        
+    //     ListNode head = reverse(dummy.next);
+    //     dummy.next = null;
+    //     return head;
+    // }
+
+    //-----------------------------------------------------------------------------------------------
+
+    // public static ListNode reverse(ListNode head) {
+    //     if (head == null || head.next == null) return head;
+        
+    //     ListNode cur = head;
+    //     ListNode prev = null;
+        
+    //     while (cur != null) {
+    //         ListNode frwd = cur.next;
+            
+    //         cur.next = prev;
+            
+    //         prev = cur;
+    //         cur = frwd;
+    //     }
+        
+    //     return prev;
+    // }
+
+    // public static ListNode subtractTwoNumbers(ListNode l1, ListNode l2) {
+        
+    //     l1 = reverse(l1);
+    //     l2 = reverse(l2);
+        
+    //     ListNode dummy = new ListNode(-1);
+    //     ListNode c1 = l1, c2 = l2, prev = dummy;
+    //     int borrow = 0;
+        
+    //     while (c1 != null || c2 != null) {
+    //         int d1 = (c1 != null ? c1.val : 0) + borrow;
+    //         int d2 = c2 != null ? c2.val : 0;
+            
+    //         if (d1 < d2) {
+    //             borrow = -1;
+    //             d1 += 10;
+    //         }
+    //         else borrow = 0;
+            
+    //         int diff = (d1 - d2)%10;
+            
+    //         prev.next = new ListNode(diff);
+    //         prev = prev.next;
+            
+    //         if (c1 != null) c1 = c1.next;
+    //         if (c2 != null) c2 = c2.next;
+    //     }
+        
+    //     ListNode head = reverse(dummy.next);
+    //     dummy.next = null;
+    //     return head;
+    // }
+
+    //-----------------------------------------------------------------------------------------------
+
+    // public static boolean isCyclePresentInLL(ListNode head) {
+    //     if (head == null || head.next == null) return false;
+        
+    //     ListNode slow = head;
+    //     ListNode fast = head;
+        
+    //     // Why movement in 2:1 ratio, to handle less base cases and most optimal interms of time (no. of cycle rotations by each) 
+    //     while (fast.next != null && fast.next.next != null) {
+    //         slow = slow.next;
+    //         fast = fast.next.next;
+            
+    //         if (fast == slow) return true;
+    //     }
+        
+    //     return false;
+    // }
+
+    //-----------------------------------------------------------------------------------------------
+
+    // public static ListNode CycleNode(ListNode head) {
+    //     if (head == null || head.next == null) return null;
+        
+    //     ListNode slow = head;
+    //     ListNode fast = head;
+        
+    //     // Modified while condition than previous used common condition to handle very corner cases on leetcode
+    //     while (fast != null && fast.next != null) {
+    //         slow = slow.next;
+    //         fast = fast.next.next;
+            
+    //         if (slow == fast) break;
+    //     }
+        
+    //     // This means that there is no cycle, just long straight linked list
+    //     if (slow != fast) return null;
+        
+    //     // Reset slow to head and fast be in meeting point itself to find starting node
+    //     slow = head;
+    //     while (slow != fast) {
+    //         slow = slow.next;
+    //         fast = fast.next;
+    //     }
+        
+    //     return slow;
+    // }
+
+
+    // This is just to calculate the other parameters of cyclic linked list
+    // public static ListNode CycleNode(ListNode head) {
+    //     if (head == null || head.next == null) return null;
+        
+    //     ListNode slow = head;
+    //     ListNode fast = head;
+        
+    //     // Modified while condition than previous used common condition to handle very corner cases on leetcode
+    //     while (fast != null && fast.next != null) {
+    //         slow = slow.next;
+    //         fast = fast.next.next;
+            
+    //         if (slow == fast) break;
+    //     }
+        
+    //     // This means that there is no cycle, just long straight linked list
+    //     if (slow != fast) return null;
+
+    //     ListNode meetingNode = fast;
+    //     int a = 1, n = 0, nDash = 0, b = 0, c = 0, bc = 0, count = 0;
+    //     // bc -> b + c, nDash -> n'
+        
+    //     // Reset slow to head and fast be in meeting point itself to find starting node
+    //     slow = head;
+    //     boolean inLoop = false;
+    //     while (slow != fast) {
+    //         slow = slow.next;
+    //         fast = fast.next;
+    //         inLoop = true;
+
+    //         if (nDash == 0 && fast == meetingNode) bc = count;
+    //         if (fast == meetingNode) nDash++;
+
+    //         a++;
+    //         count++;    // This is to count number of cycles after meeting point
+    //     }
+
+    //     if (!inLoop) {          
+    //         // No tail case
+    //         fast = fast.next;
+    //         bc = 1;
+    //         while (slow != fast) {
+    //             fast = fast.next;
+    //             bc++;
+    //         }
+    //         n = 1;
+    //         nDash = 0;              
+    //         a = 0;
+    //         c = 0;
+    //         b = bc;
+    //     }
+    //     else {
+    //         // Tail case    
+    //         n = nDash+1;
+    //         c = a - bc*(n-1);
+    //         b = bc - c;
+    //     }
+
+    //     return slow;
+    // }
+
+    //-----------------------------------------------------------------------------------------------
+
+    // public static ListNode CycleNode(ListNode head) {
+    //     if (head == null || head.next == null) return null;
+        
+    //     ListNode slow = head;
+    //     ListNode fast = head;
+        
+    //     // Modified while condition than previous used common condition to handle very corner cases on leetcode
+    //     while (fast != null && fast.next != null) {
+    //         slow = slow.next;
+    //         fast = fast.next.next;
+            
+    //         if (slow == fast) break;
+    //     }
+        
+    //     // This means that there is no cycle, just long straight linked list
+    //     if (slow != fast) return null;
+        
+    //     // Reset slow to head and fast be in meeting point itself to find starting node
+    //     slow = head;
+    //     while (slow != fast) {
+    //         slow = slow.next;
+    //         fast = fast.next;
+    //     }
+        
+    //     return slow;
+    // }
+
+    // public static ListNode IntersectionNodeInTwoLL(ListNode headA, ListNode headB) {
+    //     if (headA == null || headB == null) return null;
+        
+    //     ListNode tail = headA;
+    //     while (tail.next != null) tail = tail.next;
+    //     // Link with list2; find intersectNode; Unlink from list2; 
+    //     tail.next = headB;
+    //     ListNode intersectNode = CycleNode(headA);
+    //     tail.next = null;
+        
+    //     return intersectNode;
+    // }
 }

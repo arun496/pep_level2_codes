@@ -861,7 +861,7 @@ public class LinkedList {
     //     ListNode slow = head;
     //     ListNode fast = head;
         
-    //     // Modified while condition than previous used common condition to handle very corner cases on leetcode
+    //     // Find cycle
     //     while (fast != null && fast.next != null) {
     //         slow = slow.next;
     //         fast = fast.next.next;
@@ -869,48 +869,43 @@ public class LinkedList {
     //         if (slow == fast) break;
     //     }
         
-    //     // This means that there is no cycle, just long straight linked list
+    //     // If no cycle
     //     if (slow != fast) return null;
 
+    //     // If cycle
     //     ListNode meetingNode = fast;
-    //     int a = 1, n = 0, nDash = 0, b = 0, c = 0, bc = 0, count = 0;
+    //     int a = 1, n = 0, nDash = 0, b = 0, c = 0, bc = 0;
     //     // bc -> b + c, nDash -> n'
         
-    //     // Reset slow to head and fast be in meeting point itself to find starting node
+    //     // Calc nDash & a
     //     slow = head;
-    //     boolean inLoop = false;
     //     while (slow != fast) {
     //         slow = slow.next;
     //         fast = fast.next;
-    //         inLoop = true;
 
-    //         if (nDash == 0 && fast == meetingNode) bc = count;
     //         if (fast == meetingNode) nDash++;
-
     //         a++;
-    //         count++;    // This is to count number of cycles after meeting point
     //     }
 
-    //     if (!inLoop) {          
-    //         // No tail case
+    //     fast = meetingNode;
+    //     fast = fast.next;
+
+    //     // Calc b+c
+    //     bc = 1;
+    //     while (fast != meetingNode) {
     //         fast = fast.next;
-    //         bc = 1;
-    //         while (slow != fast) {
-    //             fast = fast.next;
-    //             bc++;
-    //         }
-    //         n = 1;
-    //         nDash = 0;              
-    //         a = 0;
-    //         c = 0;
-    //         b = bc;
+    //         bc++;
     //     }
-    //     else {
-    //         // Tail case    
-    //         n = nDash+1;
-    //         c = a - bc*(n-1);
-    //         b = bc - c;
-    //     }
+
+    //     n = nDash + 1;
+    //     c = a - (n-1)*bc;
+    //     b = bc - c;
+
+    //     System.out.println("Length Of Tail is:" + a);
+    //     System.out.println("Length Of b is:" + b);
+    //     System.out.println("Length Of c is:" + c);
+    //     System.out.println("No Of rotation by fast pointer before meeting poiny:" + n);
+    //     System.out.println("No Of rotation by fast pointer after meeting poiny:" + nDash);
 
     //     return slow;
     // }
@@ -944,6 +939,7 @@ public class LinkedList {
     //     return slow;
     // }
 
+    // Floyd cycle Method
     // public static ListNode IntersectionNodeInTwoLL(ListNode headA, ListNode headB) {
     //     if (headA == null || headB == null) return null;
         
@@ -955,5 +951,428 @@ public class LinkedList {
     //     tail.next = null;
         
     //     return intersectNode;
+    // }
+
+    //-----------------------------------------------------------------------------------------------
+
+    // public static int length(ListNode head) {
+    //     ListNode tail = head;
+    //     int len = 0;
+    //     while (tail != null) {
+    //         tail = tail.next;
+    //         len++;
+    //     }
+        
+    //     return len;
+    // }
+
+    // Difference Method
+    // public static ListNode IntersectionNodeInTwoLL(ListNode headA, ListNode headB) {
+    //     if (headA == null || headB == null) return null;
+        
+    //     int lenA = length(headA);
+    //     int lenB = length(headB);
+        
+    //     ListNode biggerList = lenA > lenB ? headA : headB;
+    //     ListNode smallerList = lenA < lenB ? headA : headB;
+        
+    //     int diff = Math.abs(lenA - lenB);
+    //     while (diff-- > 0) biggerList = biggerList.next;
+        
+    //     while (smallerList != biggerList) {
+    //         smallerList = smallerList.next;
+    //         biggerList = biggerList.next;
+    //     }
+        
+    //     return smallerList;
+    // }
+
+    //-----------------------------------------------------------------------------------------------
+
+    // public static ListNode reverse(ListNode head) {
+    //     if (head == null || head.next == null) return head;
+        
+    //     ListNode cur = head;
+    //     ListNode prev = null;
+        
+    //     while (cur != null) {
+    //         ListNode frwd = cur.next;
+            
+    //         cur.next = prev;
+            
+    //         prev = cur;
+    //         cur = frwd;
+    //     }
+        
+    //     return prev;
+    // }
+    
+    // public static ListNode addPowers(ListNode head, int powers) {
+        
+    //     ListNode tail = head;
+    //     while (tail.next != null) tail = tail.next;
+    //     while (powers-- > 0) {
+    //         tail.next = new ListNode(0);
+    //         tail = tail.next;
+    //     }
+        
+    //     return head;
+    // }
+
+    // public static ListNode multiplyTwoLL(ListNode l1, ListNode l2) {
+    //     if (l1 == null || l2 == null) return null;
+        
+    //     l1 = reverse(l1);
+    //     l2 = reverse(l2);
+        
+    //     // Here powers represent number of zeros to be added to adjust the latest product and get result
+    //     int powers = 0;
+    //     ListNode ans = new ListNode(0);
+    //     ListNode multiplier = l2;
+        
+    //     while (multiplier != null) {
+    //         ListNode product = singleProduct(l1, multiplier);
+    //         product = addPowers(product, powers);
+    //         ans = addTwoNumbers(ans, product);
+    //         multiplier = multiplier.next;
+    //         powers++;
+    //     }
+        
+    //     return ans;
+    // }
+    
+    // public static ListNode singleProduct(ListNode l1, ListNode multiplier) {
+        
+    //     ListNode dummy = new ListNode(-1);
+    //     ListNode prev = dummy;
+    //     ListNode cur = l1;
+    //     int carry = 0;
+        
+    //     while (cur != null || carry != 0) {
+    //         int d = cur != null ? cur.val : 0;
+            
+    //         int val = d * multiplier.val + carry;
+    //         carry = val/10;
+    //         val = val%10;
+            
+    //         prev.next = new ListNode(val);
+    //         prev = prev.next;
+            
+    //         if (cur != null) cur = cur.next;
+    //     }
+        
+    //     ListNode product = reverse(dummy.next);
+    //     dummy.next = null;
+    //     return product;
+    // }
+    
+    // public static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        
+    //     l1 = reverse(l1);
+    //     l2 = reverse(l2);
+        
+    //     ListNode dummy = new ListNode(-1);
+    //     ListNode c1 = l1, c2 = l2, prev = dummy;
+    //     int carry = 0;
+        
+    //     while (c1 != null || c2 != null || carry != 0) {
+    //         int d1 = c1 != null ? c1.val : 0;
+    //         int d2 = c2 != null ? c2.val : 0;
+    //         int sum = d1 + d2 + carry;
+            
+    //         carry = sum/10;
+    //         sum = sum%10;
+            
+    //         prev.next = new ListNode(sum);
+    //         prev = prev.next;
+            
+    //         if (c1 != null) c1 = c1.next;
+    //         if (c2 != null) c2 = c2.next;
+    //     }
+        
+    //     ListNode head = reverse(dummy.next);
+    //     dummy.next = null;
+    //     return head;
+    // }
+
+    //-----------------------------------------------------------------------------------------------
+
+    // With static type variables
+
+    // public int length(ListNode head) {
+    //     int len = 0;
+    //     ListNode tail = head;
+    //     while (tail != null) {
+    //         tail = tail.next;
+    //         len++;
+    //     }
+        
+    //     return len;
+    // }
+    
+    // ListNode th = null, tt = null;
+    // public void addFirst(ListNode node) {
+    //     if (th == null) th = tt = node;
+    //     else {
+    //         node.next = th;
+    //         th = node;
+    //     }
+    // }
+    
+    // public ListNode reverseKGroup(ListNode head, int k) {
+    //     if (head == null || k == 1) return head;
+        
+    //     int len = length(head);
+    //     ListNode ph = null, pt = null, cur = head;
+        
+    //     while (cur != null && len >= k) {
+            
+    //         int itr = k;
+    //         while (itr-- > 0) {
+    //             ListNode frwd = cur.next;
+    //             cur.next = null;
+    //             addFirst(cur);
+    //             cur = frwd;
+    //         }
+            
+    //         if (ph == null) {
+    //             ph = th;
+    //             pt = tt;
+    //         }
+    //         else {
+    //             pt.next = th;
+    //             pt = tt;
+    //         }
+            
+    //         th = tt = null;
+    //         len -= k;    
+    //     }
+        
+    //     pt.next = cur;
+    //     return ph;
+    // }
+
+
+    // // Without static type variables 
+
+    // public ListNode reverseKGroup(ListNode head, int k) {
+    //     if (head == null || k == 1) return head;
+        
+    //     ListNode dummy = new ListNode(-1);
+    //     ListNode prev = dummy, cur = head;
+        
+    //     while (cur != null) {
+    //         ListNode frwd = cur;
+    //         int temp = k;
+    //         while (frwd != null && temp-- > 0) {
+    //             frwd = frwd.next;   
+    //         }
+            
+    //         // When list has no more of k size           
+    //         if (frwd == null && temp > 0) {
+    //             prev.next = cur;
+    //             break;
+    //         }
+            
+    //         // k nodes reverse and link
+    //         ListNode kreverseNode = reverse(cur, k);
+    //         prev.next = kreverseNode;
+    //         while (prev.next != null) prev = prev.next;
+            
+    //         cur = frwd;
+    //     }
+        
+    //     return dummy.next;
+    // }
+    
+    // public ListNode reverse(ListNode head, int k) {
+    //     if (head == null || head.next == null) return head;
+        
+    //     ListNode prev = null;
+    //     ListNode cur = head;
+        
+    //     // Reverse only k nodes
+    //     while (cur != null && k-- > 0) {
+    //         ListNode frwd = cur.next;
+            
+    //         cur.next = prev;
+            
+    //         prev = cur;
+    //         cur = frwd;
+    //     }
+        
+    //     return prev;
+    // }
+
+    //-----------------------------------------------------------------------------------------------
+
+    // static ListNode th = null, tt = null;
+    // public static void addFirst(ListNode node) {
+    //     if (th == null) th = tt = node;
+    //     else {
+    //         node.next = th;
+    //         th = node;
+    //     }
+    // }
+    // public static ListNode reverseInRange(ListNode head, int left, int right) {
+        
+    //     int itr = 1;
+    //     ListNode prev = null, cur = head;
+        
+    //     while (cur != null) {
+    //         while (itr >= left && itr <= right) {
+    //             ListNode frwd = cur.next;
+    //             cur.next = null;
+    //             addFirst(cur);
+    //             cur = frwd;
+    //             itr++;
+    //         }
+            
+    //         if (itr > right) {
+    //             if (prev == null) {
+    //                 tt.next = cur;
+    //                 return th;
+    //             }
+    //             else {
+    //                 prev.next = th;
+    //                 tt.next = cur;
+    //                 return head;
+    //             }
+    //         }
+            
+    //         prev = cur;
+    //         cur = cur.next;
+    //         itr++;
+    //     }
+        
+    //     return null;
+    // }
+
+    // Same approach with checks changed, can use anything
+    // public ListNode reverseInRange(ListNode head, int left, int right) {
+        
+    //     int itr = 1;
+    //     ListNode dummy = new ListNode(-1);
+    //     ListNode prev = dummy, cur = head;
+    //     prev.next = cur;
+        
+    //     while (cur != null) {
+    //         ListNode frwd = cur.next;
+    //         if (itr >= left && itr <= right) {
+    //             addFirst(cur);
+    //         }
+            
+    //         if (itr > right) break;
+            
+    //         if (itr < left) prev = cur;
+    //         cur = frwd;  
+    //         itr++;
+    //     }
+        
+    //     prev.next = th;
+    //     tt.next = cur;
+    //     return left != 1 ? head : th;
+    // }
+
+    //-----------------------------------------------------------------------------------------------
+
+    // public static ListNode removeDuplicates(ListNode head) {
+    //     if (head == null || head.next == null) return head;
+        
+    //     ListNode prev = head, cur = head.next;
+        
+    //     while (cur != null) {
+    //         while (cur != null && prev.val == cur.val) {
+    //             ListNode frwd = cur.next;
+    //             cur.next = null;
+    //             cur = frwd;
+    //         }
+            
+    //         prev.next = cur;
+    //         prev = prev.next;
+    //         if (cur != null) cur = cur.next;
+    //     }
+        
+    //     return head;
+    // }
+
+    //-----------------------------------------------------------------------------------------------
+
+    // public static ListNode removeDuplicates(ListNode head) {
+    //     if (head == null || head.next == null) return head;
+        
+    //     ListNode dummy = new ListNode(-1);
+    //     ListNode prev = dummy, cur = head.next;
+    //     prev.next = head;
+        
+    //     while (cur != null) {
+    //         boolean duplicatesExists = false;
+    //         while (cur != null && prev.next.val == cur.val) {
+    //             ListNode frwd = cur.next;
+    //             cur.next = null;
+    //             cur = frwd;
+    //             duplicatesExists = true;
+    //         }
+            
+    //         if (duplicatesExists) {
+    //             prev.next = cur;
+    //         }
+    //         else {
+    //             prev = prev.next;
+    //             prev.next = cur;
+    //         }
+            
+    //         if (cur != null) cur = cur.next;
+    //     }
+        
+    //     return dummy.next;
+    // }
+
+    //-----------------------------------------------------------------------------------------------
+
+    // public void copyNodes(Node head) {
+    //     Node cur = head;
+    //     while (cur != null) {
+    //         Node frwd = cur.next;
+    //         Node newNode = new Node(cur.val);
+            
+    //         cur.next = newNode;
+    //         newNode.next = frwd;
+            
+    //         cur = frwd;
+    //     }
+    // }
+    
+    // public void randomPointers(Node head) {
+    //     Node cur = head;
+    //     while (cur != null) {
+    //         if (cur.random != null) 
+    //             cur.next.random = cur.random.next;
+            
+    //         cur = cur.next.next;
+    //     }
+    // }
+    
+    // public Node extractCopyList(Node head) {
+    //     Node dummy = new Node(-1);
+    //     Node prev = dummy, cur = head;
+        
+    //     while (cur != null) {
+    //         prev.next = cur.next;
+    //         prev = prev.next;
+            
+    //         cur.next = cur.next.next;
+    //         cur = cur.next;
+    //     }
+        
+    //     return dummy.next;
+    // }
+    
+    // public Node copyRandomList(Node head) {
+        
+    //     copyNodes(head);
+    //     randomPointers(head);
+    //     Node deepRandomCopyList = extractCopyList(head);
+    //     return deepRandomCopyList;
     // }
 }

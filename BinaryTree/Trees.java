@@ -376,6 +376,7 @@ public class Trees {
         kLevelsDownUtility(root.right, time+1, ans, blocker);
     }
 
+    // Same node to root path code
     public static int burningTree(TreeNode root, ArrayList<ArrayList<Integer>> ans, int target) {
         if (root == null) return -1;
 

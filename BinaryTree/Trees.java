@@ -363,40 +363,135 @@ public class Trees {
 
     //-----------------------------------------------------------------------------------------------
 
+    // public static void kLevelsDownUtility(TreeNode root, int time, ArrayList<ArrayList<Integer>> ans, TreeNode blocker) {
+    //     if (root == null || root == blocker) return;
 
-    public static void kLevelsDownUtility(TreeNode root, int time, ArrayList<ArrayList<Integer>> ans, TreeNode blocker) {
-        if (root == null || root == blocker) return;
-
-        if (time == ans.size())
-            ans.add(new ArrayList<Integer>());
+    //     if (time == ans.size())
+    //         ans.add(new ArrayList<Integer>());
         
-        ans.get(time).add(root.val);
+    //     ans.get(time).add(root.val);
 
-        kLevelsDownUtility(root.left, time+1, ans, blocker);
-        kLevelsDownUtility(root.right, time+1, ans, blocker);
-    }
+    //     kLevelsDownUtility(root.left, time+1, ans, blocker);
+    //     kLevelsDownUtility(root.right, time+1, ans, blocker);
+    // }
 
-    // Same node to root path code
-    public static int burningTree(TreeNode root, ArrayList<ArrayList<Integer>> ans, int target) {
-        if (root == null) return -1;
+    // // Same node to root path code
+    // public static int burningTree(TreeNode root, ArrayList<ArrayList<Integer>> ans, int target) {
+    //     if (root == null) return -1;
 
-        if (root.val == target) {
-            kLevelsDownUtility(root, 0, ans, null);
-            return 1;
-        }
+    //     if (root.val == target) {
+    //         kLevelsDownUtility(root, 0, ans, null);
+    //         return 1;
+    //     }
 
-        int l = burningTree(root.left, ans, target);
-        if (l != -1) {
-            kLevelsDownUtility(root, l, ans, root.left);
-            return l+1;
-        }
+    //     int l = burningTree(root.left, ans, target);
+    //     if (l != -1) {
+    //         kLevelsDownUtility(root, l, ans, root.left);
+    //         return l+1;
+    //     }
         
-        int r = burningTree(root.right, ans, target);
-        if (r != -1) {
-            kLevelsDownUtility(root, r, ans, root.right);
-            return r+1;
-        }
+    //     int r = burningTree(root.right, ans, target);
+    //     if (r != -1) {
+    //         kLevelsDownUtility(root, r, ans, root.right);
+    //         return r+1;
+    //     }
 
-        return -1;
-    } 
+    //     return -1;
+    // } 
+
+    //-----------------------------------------------------------------------------------------------
+
+    // public static void kLevelsDownUtility(TreeNode root, int time, ArrayList<ArrayList<Integer>> ans, TreeNode blocker, HashSet<Integer> water) {
+    //     if (root == null || root == blocker || water.contains(root.val)) return;
+
+    //     if (time == ans.size())
+    //         ans.add(new ArrayList<Integer>());
+        
+    //     ans.get(time).add(root.val);
+
+    //     kLevelsDownUtility(root.left, time+1, ans, blocker, water);
+    //     kLevelsDownUtility(root.right, time+1, ans, blocker, water);
+    // }
+
+
+    // // Same node to root path code
+    // // -1 -> target not found, -2 -> fire can't reach anymore 
+    // public static int burningTree(TreeNode root, ArrayList<ArrayList<Integer>> ans, int target,  HashSet<Integer> water) {
+    //     if (root == null) return -1;
+
+    //     if (root.val == target) {
+    //         if (water.contains(root.val)) return -2;
+    //         kLevelsDownUtility(root, 0, ans, null, water);
+    //         return 1;
+    //     }
+
+    //     int l = burningTree(root.left, ans, target, water);
+    //     if (l > 0) {
+    //         if (water.contains(root.val)) return -2;
+    //         kLevelsDownUtility(root, l, ans, root.left, water);
+    //         return l+1;
+    //     }
+    //     if (l == -2) return -2;
+        
+    //     int r = burningTree(root.right, ans, target, water);
+    //     if (r > 0) {
+    //         if (water.contains(root.val)) return -2;
+    //         kLevelsDownUtility(root, r, ans, root.right, water);
+    //         return r+1;
+    //     }
+    //     if (r == -2) return -2;
+
+    //     return -1;
+    // }
+
+    //-----------------------------------------------------------------------------------------------
+
+    // This method handles all cases even if either p, q or both p, q doesn't exists
+    
+    // With Global variable
+    // TreeNode LCA = null;
+    // public boolean findLowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+    //     if (root == null) return false;
+        
+    //     boolean selfNode = false;
+    //     if (root.val == p.val || root.val == q.val) selfNode = true;
+        
+    //     boolean left = findLowestCommonAncestor(root.left, p, q);
+    //     boolean right = findLowestCommonAncestor(root.right, p, q);
+        
+    //     // This condition will be encountered only @ one such case -> when cur root position is going to be LCA
+    //     if ((left && right) || (left && selfNode) || (right && selfNode)) LCA = root;
+        
+    //     return selfNode || left || right;
+    // }
+    
+    // public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+    //     findLowestCommonAncestor(root, p, q);
+    //     return LCA;
+    // }
+
+    // // Without global variable -> dummy node technique 
+    // public boolean findLowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q, TreeNode LCA) {
+    //     if (root == null) return false;
+        
+    //     boolean selfNode = false;
+    //     if (root.val == p.val || root.val == q.val) selfNode = true;
+        
+    //     boolean left = findLowestCommonAncestor(root.left, p, q, LCA);
+    //     boolean right = findLowestCommonAncestor(root.right, p, q, LCA);
+        
+    //     // This condition will be encountered only @ one such case -> when cur root position is going to be LCA
+    //     if ((left && right) || (left && selfNode) || (right && selfNode)) LCA.left = root;
+        
+    //     return selfNode || left || right;
+    // }
+    
+    // public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {        
+    //     TreeNode LCA = new TreeNode(-1);    // Dummy node
+    //     findLowestCommonAncestor(root, p, q, LCA);
+    //     return LCA.left;
+    // }
+
+    //-----------------------------------------------------------------------------------------------
+
 }
